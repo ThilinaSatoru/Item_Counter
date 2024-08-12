@@ -1,5 +1,32 @@
+# Configurations
 
+Check the `config.h` file.
 
+## Wi-Fi Credentials
+```cpp
+const char* ssid = "WIFI_SSID";
+const char* password = "PASSWORD";
+```
+
+## Backend Server URL (API)
+```cpp
+const char* serverName = "http://192.168.1.4:5000/cart";
+```
+
+## HX711 Circuit Wiring 
+```cpp
+const float scale_calibrate = -179.3425; // Calibrated Balance Offset
+```
+
+## Weight and Debounce Settings 
+```cpp
+const float weightThreshold = 5.0;       // Smallest Item Weight (grams)
+const float NEAR_ZERO_THRESHOLD = 4.0;   // Max Weight as Zero (grams)
+const unsigned long STABILIZATION_TIME = 200; // Weight to stabilize (MS)
+const float WEIGHT_TOLERANCE = 4.0;      // For Weight Fluctuations
+```
+
+<br><br><br>
 
 # Getting Started with NodeMCU (ESP8266) on Arduino IDE
 
