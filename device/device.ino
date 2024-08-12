@@ -8,19 +8,21 @@
 
 #include "config.h" // Include the config file
 
-// Weight and debounce variables
-int counter = 0;
-float lastWeight = 0.0;
-float totalWeight = 0.0;
-bool isCashierMode = false;
-float stableWeight = 0.0;
-unsigned long weightStableTime = 0;
-bool weightStable = false;
+// Weight and debounce variables //////// 
+int counter = 0;                    /////
+float lastWeight = 0.0;             /////
+float totalWeight = 0.0;            /////
+bool isCashierMode = false;         /////
+float stableWeight = 0.0;           /////
+unsigned long weightStableTime = 0; /////
+bool weightStable = false;          /////
+/////////////////////////////////////////
 
-// Create display and scale objects
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
-HX711 scale;
-WiFiClient wifiClient;
+// Create display and scale objects  ////////////////////////////////
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1); ///
+HX711 scale;                                                      ///
+WiFiClient wifiClient;                                            ///
+/////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////                                   ////////////////////////////////////////////////////////
@@ -30,32 +32,34 @@ WiFiClient wifiClient;
 void setup() {
   Serial.begin(115200);
 
-  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("SSD1306 allocation failed"));
-    for (;;);
-  }
-  delay(2000);
+  //// Initialize scale ////////////////////////////////
+  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);  ///
+  scale.set_scale(scale_calibrate);  ///////////////////
+  scale.tare();  ///////////////////////////////////////
+  //////////////////////////////////////////////////////
 
-  // Initialize display
-  DisplayModeItemCounter();
-
-  // Initialize scale
-  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
-  scale.set_scale(scale_calibrate);
-  scale.tare();
-
-  // Initialize Wi-Fi
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
-  }
-  Serial.println("Connected to WiFi");
-  Serial.print("Device IP Address: ");
-  Serial.println(WiFi.localIP());
+  // Initialize Wi-Fi  ///////////////////////////
+  WiFi.begin(ssid, password);                /////
+  while (WiFi.status() != WL_CONNECTED) {    /////
+    delay(1000);                             /////
+    Serial.println("Connecting to WiFi..."); /////
+  }                                          /////
+  Serial.println("Connected to WiFi"); ///////////
+  Serial.print("Device IP Address: "); ///////////
+  Serial.println(WiFi.localIP()); ////////////////
+  ////////////////////////////////////////////////
 
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(LED_PIN, OUTPUT);
+
+  //// Initialize display //////////////////////////////
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {  ///
+    Serial.println(F("SSD1306 allocation failed"));  ///
+    for (;;);  /////////////////////////////////////////
+  }  ///////////////////////////////////////////////////
+  delay(1000);  ////////////////////////////////////////
+  DisplayModeItemCounter();  ///////////////////////////
+  //////////////////////////////////////////////////////
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,8 +68,8 @@ void setup() {
 ////////////////////////////////                                   ////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop() {
+  /// Ceck push button switch mode
   bool currentSwitchState = digitalRead(BUTTON_PIN) == LOW;
-
   if (currentSwitchState != isCashierMode) {
     delay(50);
     currentSwitchState = digitalRead(BUTTON_PIN) == LOW;
@@ -82,6 +86,7 @@ void loop() {
     }
   }
 
+  /// Weight Item Counter Logic
   if (!isCashierMode) {
     float currentWeight = scale.get_units(2); // Reduced number of readings for faster response
 
