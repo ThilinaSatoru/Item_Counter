@@ -160,6 +160,7 @@ void DisplayModeItemCounter() {
 
 // Function to handle the display in Cashier mode and send a POST request
 void DisplayModeCashier(int count) {
+  displayCenteredText("Finding");
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     StaticJsonDocument<200> jsonDoc;
@@ -187,20 +188,24 @@ void DisplayModeCashier(int count) {
       deserializeJson(responseDoc, response);
       int no = responseDoc[0]["no"];
 
-      clearDisplayBlack();
-      display.setTextSize(2);
-      display.setTextColor(WHITE);
-      display.setCursor((SCREEN_WIDTH - getTextWidth("Cashier", 2)) / 2, 10);
-      display.println("Cashier");
+      if(no == 0){
+        displayCenteredText("Add Item");
+      } else {
+        clearDisplayBlack();
+        display.setTextSize(2);
+        display.setTextColor(WHITE);
+        display.setCursor((SCREEN_WIDTH - getTextWidth("Cashier", 2)) / 2, 10);
+        display.println("Cashier");
 
-      display.setTextSize(3);
-      char noString[10];
-      sprintf(noString, "No: %d", no);
-      display.setCursor((SCREEN_WIDTH - getTextWidth(noString, 3)) / 2, 40);
-      display.print("No: ");
-      display.print(no);
+        display.setTextSize(3);
+        char noString[10];
+        sprintf(noString, "No: %d", no);
+        display.setCursor((SCREEN_WIDTH - getTextWidth(noString, 3)) / 2, 40);
+        display.print("No: ");
+        display.print(no);
 
-      display.display();
+        display.display();
+      }
 
     } else {
       Serial.print("Error on sending POST: ");
