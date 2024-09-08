@@ -165,8 +165,9 @@ void DisplayModeCashier(int count) {
     HTTPClient http;
     StaticJsonDocument<200> jsonDoc;
 
-    jsonDoc["id"] = 1;
-    jsonDoc["items"] = count;
+    // jsonDoc["id"] = 1;
+    // jsonDoc["items"] = count;
+    jsonDoc["ItemCount"] = count;
 
     String requestBody;
     serializeJson(jsonDoc, requestBody);
@@ -186,7 +187,8 @@ void DisplayModeCashier(int count) {
 
       StaticJsonDocument<200> responseDoc;
       deserializeJson(responseDoc, response);
-      int no = responseDoc[0]["no"];
+      // int no = responseDoc[0]["no"];
+      int no = responseDoc[0]["message"];
 
       if(no == 0){
         displayCenteredText("Add Item");
