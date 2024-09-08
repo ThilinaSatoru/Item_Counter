@@ -188,23 +188,35 @@ void DisplayModeCashier(int count) {
       StaticJsonDocument<200> responseDoc;
       deserializeJson(responseDoc, response);
       // int no = responseDoc[0]["no"];
-      int no = responseDoc[0]["message"];
+      int no = responseDoc["message"];
 
       if(no == 0){
-        displayCenteredText("Add Item");
+        displayCenteredText("Add Items");
       } else {
+        // clearDisplayBlack();
+        // display.setTextSize(2);
+        // display.setTextColor(WHITE);
+        // display.setCursor((SCREEN_WIDTH - getTextWidth("Cashier", 2)) / 2, 10);
+        // display.println("Cashier");
+
+        // display.setTextSize(3);
+        // char noString[10];
+        // sprintf(noString, "No: %d", no);
+        // display.setCursor((SCREEN_WIDTH - getTextWidth(noString, 3)) / 2, 40);
+        // display.print("No: ");
+        // display.print(no);
+
         clearDisplayBlack();
         display.setTextSize(2);
         display.setTextColor(WHITE);
-        display.setCursor((SCREEN_WIDTH - getTextWidth("Cashier", 2)) / 2, 10);
-        display.println("Cashier");
+        display.setCursor((SCREEN_WIDTH - getTextWidth("Press", 2)) / 2, 10);
+        display.println("Press");
 
-        display.setTextSize(3);
-        char noString[10];
-        sprintf(noString, "No: %d", no);
-        display.setCursor((SCREEN_WIDTH - getTextWidth(noString, 3)) / 2, 40);
-        display.print("No: ");
-        display.print(no);
+        clearDisplayBlack();
+        display.setTextSize(2);
+        display.setTextColor(WHITE);
+        display.setCursor((SCREEN_WIDTH - getTextWidth("Button", 2)) / 2, 40);
+        display.println("Button");
 
         display.display();
       }
@@ -216,8 +228,8 @@ void DisplayModeCashier(int count) {
       clearDisplayBlack();
       display.setTextSize(2);
       display.setTextColor(WHITE);
-      display.setCursor((SCREEN_WIDTH - getTextWidth("System", 2)) / 2, 10);
-      display.println("System");
+      display.setCursor((SCREEN_WIDTH - getTextWidth("Server", 2)) / 2, 10);
+      display.println("Server");
       display.setTextSize(3);
       display.setCursor((SCREEN_WIDTH - getTextWidth("Error !", 2)) / 2, 40);
       display.println("Error");
